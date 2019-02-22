@@ -9,7 +9,7 @@
             </figure>
           </div>
           <div class="card-content">
-            <p>{{currentTime | fancyTimeFormat}}</p>
+            <p class="is-size-5 has-text-weight-light is-family-code">{{currentTime | fancyTimeFormat}}</p>
             <a
               class="button is-large is-rounded is-white"
               :disabled="isPlaying"
