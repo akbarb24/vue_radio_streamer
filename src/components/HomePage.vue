@@ -9,12 +9,21 @@
             </figure>
           </div>
           <div class="card-content">
-            <a class="button is-large is-rounded is-white" :disabled="isPlaying" @click.prevent="play">
+            <p>{{currentTime | fancyTimeFormat}}</p>
+            <a
+              class="button is-large is-rounded is-white"
+              :disabled="isPlaying"
+              @click.prevent="play"
+            >
               <span class="icon is-large has-text-warning">
                 <i class="far fa-2x fa-play-circle"></i>
               </span>
             </a>
-            <a class="button is-large is-rounded is-white" :disabled="!isPlaying" @click.prevent="pause">
+            <a
+              class="button is-large is-rounded is-white"
+              :disabled="!isPlaying"
+              @click.prevent="pause"
+            >
               <span class="icon is-large has-text-warning">
                 <i class="far fa-2x fa-pause-circle"></i>
               </span>
@@ -30,6 +39,7 @@ export default {
   name: "HomePage",
   data() {
     return {
+      currentTime: 0,
       audio: undefined,
       isPlaying: false,
       stations: [
@@ -40,14 +50,35 @@ export default {
       ]
     };
   },
+  filters: {
+    fancyTimeFormat: function fancyTimeFormat(s) {
+      return (s - (s %= 60)) / 60 + (9 < s ? ":" : ":0") + s;
+    }
+  },
+  watch: {
+    currentTime: function currentTime() {
+      this.currentTime = Math.round(this.currentTime);
+    }
+  },
   methods: {
-    play: function(){
+    play: function() {
+      this.updateTime();
       this.isPlaying = true;
       this.audio.play();
     },
-    pause: function(){
+    pause: function() {
       this.isPlaying = false;
       this.audio.pause();
+    },
+    updateTime: function() {
+      var localThis = this;
+      setTimeout(
+        function() {
+          localThis.currentTime = localThis.audio.currentTime;
+          localThis.updateTime();
+        }.bind(this),
+        1000
+      );
     }
   },
   mounted() {
