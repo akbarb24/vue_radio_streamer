@@ -60,7 +60,6 @@ export default {
       valVolume: 50,
       minVolume: 0,
       maxVolume: 100,
-      volumeSlider: undefined,
       isMuted: false,
       isPlaying: false,
       selectedStation: undefined,
