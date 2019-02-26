@@ -1,63 +1,58 @@
 <template>
   <div class="w-1/2 rounded-lg overflow-hidden shadow-lg">
     <div class="flex w-full pt-4 pb-4 px-4 justify-between">
-      <p class="font-mono text-teal-dark">{{selectedStation.name}}</p>
-      <p class="font-mono text-teal-dark">{{currentTime | fancyTimeFormat}}</p>
+      <p class="font-mono text-blue-light">{{selectedStation.name}}</p>
+      <p class="font-mono text-blue-light">{{currentTime | fancyTimeFormat}}</p>
     </div>
     <div class="flex w-full py-4 px-8 justify-between items-center">
       <div class="flex-col w-12">
         <div class="flex justify-center mb-4">
           <a class="cursor-pointer" @click="reload">
-            <font-awesome-icon icon="sync-alt" class="text-teal-dark hover:text-grey-darkest"></font-awesome-icon>
+            <font-awesome-icon icon="sync-alt" class="text-blue-light hover:text-grey"></font-awesome-icon>
           </a>
         </div>
         <a class="cursor-pointer" @click.prevent="togglePlay(isPlaying)">
           <font-awesome-icon
             icon="play-circle"
             size="3x"
-            class="text-teal-dark hover:text-white hover:bg-teal-dark rounded-full border-white border-2 hover:border-teal-dark"
+            class="text-blue-light hover:text-white hover:bg-blue-light rounded-full border-white border-2 hover:border-blue-light"
             v-if="!isPlaying"
           />
           <font-awesome-icon
             icon="pause-circle"
             size="3x"
-            class="text-teal-dark hover:text-white hover:bg-teal-dark rounded-full border-white border-2 hover:border-teal-dark"
+            class="text-blue-light hover:text-white hover:bg-blue-light rounded-full border-white border-2 hover:border-blue-light"
             v-if="isPlaying"
           />
         </a>
       </div>
-      <div class="flex-col w-2">
+      <div class="flex-col justify-center">
         <a class="cursor-pointer" @click="mutedVolume(isMuted)">
           <font-awesome-icon
             icon="volume-up"
-            class="text-teal-dark hover:text-grey-darkest mb-2"
+            class="text-blue-light hover:text-grey mb-2"
             v-if="!isMuted"
           ></font-awesome-icon>
           <font-awesome-icon
             icon="volume-mute"
-            class="text-teal-dark hover:text-grey-darkest mb-2"
+            class="text-blue-light hover:text-grey mb-2"
             v-if="isMuted"
           ></font-awesome-icon>
         </a>
-        <input
-          id="volumeSlider"
-          type="range"
-          orient="vertical"
-          :min="minVolume"
-          :max="maxVolume"
-          :value="valVolume"
-          step="1"
-          class="h-12"
-          @mousemove="setVolume"
-        >
-        <font-awesome-icon icon="volume-down" class="text-teal-light mt-2"></font-awesome-icon>
+        <vue-slider @mousemove="setVolume" ref="slider" v-model="valVolume" v-bind="sliderOption"></vue-slider>
+        <font-awesome-icon icon="volume-down" class="text-blue-lighter mt-2"></font-awesome-icon>
       </div>
     </div>
   </div>
 </template>
 <script>
+import vueSlider from "vue-slider-component";
+
 export default {
   name: "RadioPlayer",
+  components: {
+    vueSlider
+  },
   data() {
     return {
       audio: undefined,
@@ -74,7 +69,46 @@ export default {
           name: "Prambors FM",
           url: "http://103.226.246.58:80/masima-pramborsjakarta"
         }
-      ]
+      ],
+      sliderOption: {
+        data: null,
+        eventType: "auto",
+        direction: "vertical",
+        width: 3,
+        height: 100,
+        dotSize: 16,
+        dotHeight: null,
+        dotWidth: null,
+        min: 0,
+        max: 100,
+        interval: 1,
+        show: true,
+        speed: 0.5,
+        disabled: false,
+        piecewise: false,
+        usdKeyboard: false,
+        enableCross: true,
+        piecewiseStyle: false,
+        piecewiseLabel: false,
+        tooltip: "false",
+        tooltipDir: "top",
+        reverse: false,
+        data: null,
+        clickable: true,
+        realTime: false,
+        lazy: false,
+        formatter: null,
+        bgStyle: null,
+        sliderStyle: null,
+        processStyle: {
+          "background-color": "#6cb2eb"
+        },
+        piecewiseActiveStyle: null,
+        piecewiseStyle: null,
+        tooltipStyle: null,
+        labelStyle: null,
+        labelActiveStyle: null
+      }
     };
   },
   filters: {
@@ -98,8 +132,9 @@ export default {
     play: function() {
       this.updateTime();
       this.isPlaying = true;
-      this.audio.play();
-      console.log("played");
+      this.audio.play().catch(function() {
+        alert("Radio cannot played!");
+      });
     },
     pause: function() {
       this.isPlaying = false;
@@ -116,10 +151,9 @@ export default {
         1000
       );
     },
-    setVolume: function(){
-      this.valVolume = this.volumeSlider.value;
+    setVolume: function() {
       this.changeVolume(this.valVolume);
-    }, 
+    },
     changeVolume: function(value) {
       this.audio.volume = value / 100;
     },
@@ -146,8 +180,6 @@ export default {
   mounted() {
     this.audio = new Audio();
     this.audio.src = this.selectedStation.url;
-
-    this.volumeSlider = document.getElementById("volumeSlider");
   }
 };
 </script>
