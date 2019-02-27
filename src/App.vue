@@ -1,18 +1,21 @@
 <template>
   <div id="app">
     <HomePage></HomePage>
+    <!-- <loading-spinner></loading-spinner> -->
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
 import HomePage from './components/HomePage.vue'
+import LoadingSpinner from './components/util/LoadingSpinner.vue';
 
 export default {
   name: 'app',
   components: {
     HelloWorld,
-    HomePage
+    HomePage,
+    'loading-spinner': LoadingSpinner
   }
 }
 </script>

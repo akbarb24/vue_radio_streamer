@@ -8,50 +8,52 @@
       <div class="flex-col w-12">
         <div class="flex justify-center mb-4">
           <a class="cursor-pointer" @click="reload">
-            <font-awesome-icon icon="sync-alt" class="text-blue-light hover:text-grey"></font-awesome-icon>
+            <v-icon name="sync-alt" class="text-blue-light hover:text-grey"/>
           </a>
         </div>
         <a class="cursor-pointer" @click.prevent="togglePlay(isPlaying)">
-          <font-awesome-icon
-            icon="play-circle"
-            size="3x"
+          <v-icon
+            name="play-circle"
+            scale="3"
             class="text-blue-light hover:text-white hover:bg-blue-light rounded-full border-white border-2 hover:border-blue-light"
             v-if="!isPlaying"
           />
-          <font-awesome-icon
-            icon="pause-circle"
-            size="3x"
+          <v-icon
+            name="spinner"
+            scale="3"
+            pulse
+            class="text-blue-light rounded-full"
+            v-if="isPlaying && audio.seeking"
+          />
+          <v-icon
+            name="pause-circle"
+            scale="3"
             class="text-blue-light hover:text-white hover:bg-blue-light rounded-full border-white border-2 hover:border-blue-light"
-            v-if="isPlaying"
+            v-if="!audio.seeking && isPlaying"
           />
         </a>
       </div>
       <div class="flex-col justify-center">
+        <vue-slider ref="slider" v-model="valVolume" v-bind="sliderOption"></vue-slider>
         <a class="cursor-pointer" @click="mutedVolume(isMuted)">
-          <font-awesome-icon
-            icon="volume-up"
-            class="text-blue-light hover:text-grey mb-2"
-            v-if="!isMuted"
-          ></font-awesome-icon>
-          <font-awesome-icon
-            icon="volume-mute"
-            class="text-blue-light hover:text-grey mb-2"
-            v-if="isMuted"
-          ></font-awesome-icon>
+          <div class="text-blue-light hover:text-grey rounded-full h-6 w-6 p-1">
+            <v-icon name="volume-up" v-if="!isMuted"/>
+            <v-icon name="volume-mute" v-if="isMuted"/>
+          </div>
         </a>
-        <vue-slider @mousemove="setVolume" ref="slider" v-model="valVolume" v-bind="sliderOption"></vue-slider>
-        <font-awesome-icon icon="volume-down" class="text-blue-lighter mt-2"></font-awesome-icon>
       </div>
     </div>
   </div>
 </template>
 <script>
 import vueSlider from "vue-slider-component";
+import LoadingSpinner from "./util/LoadingSpinner.vue";
 
 export default {
   name: "RadioPlayer",
   components: {
-    vueSlider
+    vueSlider,
+    "loading-spinner": LoadingSpinner
   },
   data() {
     return {
@@ -73,9 +75,9 @@ export default {
         data: null,
         eventType: "auto",
         direction: "vertical",
-        width: 3,
+        width: 5,
         height: 100,
-        dotSize: 16,
+        dotSize: 12,
         dotHeight: null,
         dotWidth: null,
         min: 0,
@@ -131,14 +133,11 @@ export default {
     play: function() {
       this.updateTime();
       this.isPlaying = true;
-      this.audio.play().catch(function() {
-        alert("Radio cannot played!");
-      });
+      this.audio.play();
     },
     pause: function() {
       this.isPlaying = false;
       this.audio.pause();
-      console.log("paused");
     },
     updateTime: function() {
       var localThis = this;
@@ -174,11 +173,14 @@ export default {
     }
   },
   beforeMount() {
+    this.audio = new Audio();
     this.selectedStation = this.stations[0];
   },
   mounted() {
-    this.audio = new Audio();
     this.audio.src = this.selectedStation.url;
+  },
+  updated() {
+    this.changeVolume(this.valVolume);
   }
 };
 </script>
