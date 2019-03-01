@@ -1,5 +1,9 @@
 <template>
-  <div class="w-1/2 rounded-lg overflow-hidden shadow-lg">
+  <div class="w-2/5 rounded-lg overflow-hidden shadow-lg bg-white">
+    <div class="flex w-full px-8 pt-8 pb-6 border-b justify-start items-end">
+      <v-icon name="broadcast-tower" scale="2" class="mx-3 text-grey-darkest"/>
+      <h2 class="font-mono text-lg text-grey-darkest">V-Radio Streamer</h2>
+    </div>
     <div class="flex w-full pt-4 pb-4 px-4 justify-between">
       <p class="font-mono text-blue-light">{{selectedStation.name}}</p>
       <p class="font-mono text-blue-light">{{currentTime | fancyTimeFormat}}</p>
