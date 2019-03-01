@@ -29,7 +29,7 @@
             name="pause-circle"
             scale="3"
             class="text-blue-light hover:text-white hover:bg-blue-light rounded-full border-white border-2 hover:border-blue-light"
-            v-if="!audio.seeking && isPlaying"
+            v-if="isPlaying && !audio.seeking"
           />
         </a>
       </div>
@@ -47,13 +47,11 @@
 </template>
 <script>
 import vueSlider from "vue-slider-component";
-import LoadingSpinner from "./util/LoadingSpinner.vue";
 
 export default {
   name: "RadioPlayer",
   components: {
-    vueSlider,
-    "loading-spinner": LoadingSpinner
+    vueSlider
   },
   data() {
     return {
