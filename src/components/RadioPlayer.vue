@@ -183,6 +183,7 @@ export default {
   },
   updated() {
     this.changeVolume(this.valVolume);
+    console.log(this.audio.seeking);
   }
 };
 </script>
