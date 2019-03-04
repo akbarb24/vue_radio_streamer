@@ -1,6 +1,6 @@
 <template>
   <div class="bg-grey-light h-screen">
-    <div class="flex mx-auto pt-32 justify-center items-start">
+    <div class="flex">
       <radio-player></radio-player>
     </div>
   </div>
