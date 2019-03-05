@@ -167,6 +167,7 @@ export default {
     },
     mounted() {
         this.audio.src = this.selectedStation.url;
+        window.scrollTo(0,1);
     },
     updated() {
         this.changeVolume(this.valVolume);
