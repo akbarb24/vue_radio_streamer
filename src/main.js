@@ -10,7 +10,6 @@ import 'vue-awesome/icons'
 /* Register component with one of 2 methods */
 import Icon from 'vue-awesome/components/Icon'
 
-
 library.add(faBroadcastTower, faPlayCircle, faPauseCircle, faVolumeUp, faVolumeDown, faVolumeMute, faSyncAlt, faSpinner)
 
 Vue.config.productionTip = false

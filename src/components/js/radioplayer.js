@@ -1,9 +1,11 @@
 import vueSlider from "vue-slider-component";
+import radioGraph from "../RadioGraph.vue";
 
 export default {
     name: "RadioPlayer",
     components: {
-        vueSlider
+        vueSlider,
+        "radio-graph": radioGraph
     },
     data() {
         return {
@@ -162,12 +164,13 @@ export default {
         }
     },
     beforeMount() {
-        this.audio = new Audio();
         this.selectedStation = this.stations[0];
+        
+        this.audio = new Audio();
+        this.audio.src = this.selectedStation.url;
     },
     mounted() {
-        this.audio.src = this.selectedStation.url;
-        window.scrollTo(0,1);
+        
     },
     updated() {
         this.changeVolume(this.valVolume);
