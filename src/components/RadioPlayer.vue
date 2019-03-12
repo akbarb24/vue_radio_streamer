@@ -42,9 +42,6 @@
               />
             </a>
           </div>
-          <div class="flex bg-grey">
-            <radio-graph :audioSrc="audio"></radio-graph>
-          </div>
           <div class="flex-col justify-center">
             <vue-slider ref="slider" v-model="valVolume" v-bind="desktopSliderOption"></vue-slider>
             <a class="cursor-pointer" @click="mutedVolume(isMuted)">

@@ -1,11 +1,9 @@
 import vueSlider from "vue-slider-component";
-import radioGraph from "../RadioGraph.vue";
 
 export default {
     name: "RadioPlayer",
     components: {
-        vueSlider,
-        "radio-graph": radioGraph
+        vueSlider
     },
     data() {
         return {
