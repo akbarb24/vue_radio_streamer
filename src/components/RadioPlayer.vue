@@ -5,13 +5,31 @@
       <div
         class="w-2/5 rounded-lg overflow-hidden shadow-lg bg-white mx-auto mt-32 justify-center items-start"
       >
-        <div class="flex w-full px-8 pt-8 pb-6 border-b justify-start items-end">
+        <div class="flex w-full px-8 pt-8 pb-6 border-b-2 justify-start items-end">
           <v-icon name="broadcast-tower" scale="2" class="mx-3 text-grey-darkest"/>
-          <h2 class="font-mono text-lg text-grey-darkest">V-Radio Streamer</h2>
+          <h2 class="font-mono text-xl text-grey-darkest">V-Radio Streamer</h2>
         </div>
-        <div class="flex w-full pt-4 pb-4 px-4 justify-between">
-          <p class="font-mono text-blue-light">{{selectedStation.name}}</p>
-          <p class="font-mono text-blue-light">{{currentTime | fancyTimeFormat}}</p>
+        <div>
+          <div class="tab__header">
+            <a
+              href="#"
+              class="tab__link p-4 block bg-white no-underline border-b-2 border-white flex justify-between"
+              @click.prevent="active = !active"
+            >
+              <v-icon name="bars" scale="2" v-show="!active" class="text-blue-light"/>
+              <v-icon name="times" scale="2" v-show="active" class="text-blue-light"/>
+              <p class="font-mono text-lg text-blue-light">{{selectedStation.name}}</p>
+              <p class="font-mono text-lg text-blue-light">{{currentTime | fancyTimeFormat}}</p>
+            </a>
+          </div>
+          <div class="tab__content overflow-auto h-48 shadow-inner" v-show="active" :class="active ? ['border-b', 'border-t'] : ''">
+            <a
+              href="#"
+              class="tab__link p-4 block no-underline bg-grey-lightest hover:bg-grey-lighter border-b-2 border-white flex font-mono text-lg text-blue-light"
+              @click="selectStation(s)"
+              v-for="s in stations"
+            >{{s.name}}</a>
+          </div>
         </div>
         <div class="flex w-full py-4 px-8 justify-between items-center">
           <div class="flex-col w-12">
@@ -42,12 +60,12 @@
               />
             </a>
           </div>
-          <div class="flex-col justify-center">
+          <div class="flex-col justify-center py-4">
             <vue-slider ref="slider" v-model="valVolume" v-bind="desktopSliderOption"></vue-slider>
             <a class="cursor-pointer" @click="mutedVolume(isMuted)">
               <div class="text-blue-light hover:text-grey rounded-full h-6 w-6 p-1">
-                <v-icon name="volume-up" v-if="!isMuted"/>
-                <v-icon name="volume-mute" v-if="isMuted"/>
+                <v-icon scale="2" name="volume-up" v-if="!isMuted"/>
+                <v-icon scale="2" name="volume-mute" v-if="isMuted"/>
               </div>
             </a>
           </div>
@@ -62,9 +80,27 @@
           <v-icon name="broadcast-tower" scale="3" class="mx-3 text-grey-darkest"/>
           <h2 class="font-mono text-xl text-grey-darkest">V-Radio Streamer</h2>
         </div>
-        <div class="flex w-full pt-4 pb-4 px-4 justify-between">
-          <p class="font-mono text-2xl text-blue-light">{{selectedStation.name}}</p>
-          <p class="font-mono text-2xl text-blue-light">{{currentTime | fancyTimeFormat}}</p>
+        <div>
+          <div class="tab__header">
+            <a
+              href="#"
+              class="tab__link p-4 block bg-white no-underline border-b-2 border-white flex justify-between"
+              @click.prevent="active = !active"
+            >
+              <v-icon name="bars" scale="2" v-show="!active" class="text-blue-light"/>
+              <v-icon name="times" scale="2" v-show="active" class="text-blue-light"/>
+              <p class="font-mono text-lg text-blue-light">{{selectedStation.name}}</p>
+              <p class="font-mono text-lg text-blue-light">{{currentTime | fancyTimeFormat}}</p>
+            </a>
+          </div>
+          <div class="tab__content overflow-auto h-48 shadow-inner" v-show="active" :class="active ? ['border-b', 'border-t'] : ''">
+            <a
+              href="#"
+              class="tab__link p-4 block no-underline bg-grey-lightest hover:bg-grey-lighter border-b-2 border-white flex font-mono text-lg text-blue-light"
+              @click="selectStation(s)"
+              v-for="s in stations"
+            >{{s.name}}</a>
+          </div>
         </div>
         <div class="z-0 flex w-full h-full"></div>
         <div class="z-10 sticky pin-b">
