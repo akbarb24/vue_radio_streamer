@@ -51,7 +51,7 @@ export default {
                 this.changeVolume(this.valVolume);
             } else {
                 this.isMuted = false;
-                this.valVolume = 50;
+                this.valVolume = 100;
                 this.changeVolume(this.valVolume);
             }
         },
@@ -59,14 +59,16 @@ export default {
             this.currentTime = 0;
             location.reload();
         },
-        selectStation: function(station) {
+        setStation: function(station) {
             if(this.isPlaying){
                 this.pause();
             }
+            this.selectStation(station);
             this.active = !this.active;
+        },
+        selectStation: function(station){
             this.selectedStation = station;
             this.audio.src = this.selectedStation.url;
-            console.log(this.audio.src);
         }
     },
     filters: {
@@ -85,7 +87,7 @@ function data() {
     return {
         audio: new Audio(),
         currentTime: 0,
-        valVolume: 50,
+        valVolume: 100,
         minVolume: 0,
         maxVolume: 100,
         isMuted: false,
@@ -99,8 +101,7 @@ function data() {
 }
 
 function mounted() {
-    this.selectedStation = stations[3];
-    this.audio.src = this.selectedStation.url;
+    this.selectStation(stations[0]);
 }
 
 function updated() {

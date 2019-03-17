@@ -10,25 +10,32 @@
           <h2 class="font-mono text-xl text-grey-darkest">V-Radio Streamer</h2>
         </div>
         <div>
-          <div class="tab__header">
+          <div class="flex justify-between items-center p-4">
             <a
               href="#"
-              class="tab__link p-4 block bg-white no-underline border-b-2 border-white flex justify-between"
+              class="block bg-white no-underline border-b-2 border-white"
               @click.prevent="active = !active"
             >
               <v-icon name="bars" scale="2" v-show="!active" class="text-blue-light"/>
               <v-icon name="times" scale="2" v-show="active" class="text-blue-light"/>
-              <p class="font-mono text-lg text-blue-light">{{selectedStation.name}}</p>
-              <p class="font-mono text-lg text-blue-light">{{currentTime | fancyTimeFormat}}</p>
             </a>
+            <p class="font-mono text-lg text-blue-light">{{selectedStation.name}}</p>
+            <p class="font-mono text-lg text-blue-light">{{currentTime | fancyTimeFormat}}</p>
           </div>
-          <div class="tab__content overflow-auto h-48 shadow-inner" v-show="active" :class="active ? ['border-b', 'border-t'] : ''">
+          <div
+            class="overflow-auto h-48 shadow-inner"
+            v-show="active"
+            :class="active ? ['border-b', 'border-t'] : ''"
+          >
             <a
               href="#"
-              class="tab__link p-4 block no-underline bg-grey-lightest hover:bg-grey-lighter border-b-2 border-white flex font-mono text-lg text-blue-light"
-              @click="selectStation(s)"
+              class="tab__link p-4 block no-underline bg-grey-lightest hover:bg-grey-lighter border-b-2 border-white flex font-mono text-lg text-blue-light justify-between items-center"
+              @click="setStation(s)"
               v-for="s in stations"
-            >{{s.name}}</a>
+            >
+              <p>{{s.name}}</p>
+              <v-icon name="compact-disc" scale="1" v-if="s === selectedStation" :spin="isPlaying"/>
+            </a>
           </div>
         </div>
         <div class="flex w-full py-4 px-8 justify-between items-center">
@@ -81,25 +88,32 @@
           <h2 class="font-mono text-xl text-grey-darkest">V-Radio Streamer</h2>
         </div>
         <div>
-          <div class="tab__header">
+          <div class="flex justify-between items-center p-4">
             <a
               href="#"
-              class="tab__link p-4 block bg-white no-underline border-b-2 border-white flex justify-between"
+              class="block bg-white no-underline border-b-2 border-white"
               @click.prevent="active = !active"
             >
               <v-icon name="bars" scale="2" v-show="!active" class="text-blue-light"/>
               <v-icon name="times" scale="2" v-show="active" class="text-blue-light"/>
-              <p class="font-mono text-lg text-blue-light">{{selectedStation.name}}</p>
-              <p class="font-mono text-lg text-blue-light">{{currentTime | fancyTimeFormat}}</p>
             </a>
+            <p class="font-mono text-lg text-blue-light">{{selectedStation.name}}</p>
+            <p class="font-mono text-lg text-blue-light">{{currentTime | fancyTimeFormat}}</p>
           </div>
-          <div class="tab__content overflow-auto h-48 shadow-inner" v-show="active" :class="active ? ['border-b', 'border-t'] : ''">
+          <div
+            class="overflow-auto h-full shadow-inner"
+            v-show="active"
+            :class="active ? ['border-b', 'border-t'] : ''"
+          >
             <a
               href="#"
-              class="tab__link p-4 block no-underline bg-grey-lightest hover:bg-grey-lighter border-b-2 border-white flex font-mono text-lg text-blue-light"
+              class="tab__link p-4 block no-underline bg-grey-lightest hover:bg-grey-lighter border-b-2 border-white flex font-mono text-lg text-blue-light justify-between items-center"
               @click="selectStation(s)"
               v-for="s in stations"
-            >{{s.name}}</a>
+            >
+              <p>{{s.name}}</p>
+              <v-icon name="compact-disc" scale="1" v-if="s === selectedStation" :spin="isPlaying"/>
+            </a>
           </div>
         </div>
         <div class="z-0 flex w-full h-full"></div>
